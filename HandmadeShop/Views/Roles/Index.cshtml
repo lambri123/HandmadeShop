@@ -1,0 +1,86 @@
+﻿@model PaginatedList<HandmadeShop.Models.ApplicationRole>
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>Roles</h1>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Create New Role</a>
+</p>
+
+<!-- Форма за търсене -->
+<form method="get">
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="nameSearch">Search by Name:</label>
+            <input type="text" class="form-control" id="nameSearch" name="nameSearch" value="@Context.Request.Query["nameSearch"]" />
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+    </div>
+</form>
+
+<!-- Таблица с ролите -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ViewData["NameSortParm"], nameSearch = Context.Request.Query["nameSearch"] })">
+                    Name
+                    @if (ViewData["NameSortParm"].ToString() == "Name_Desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Roles", new { roleId = role.Id })" class="btn btn-warning">Edit</a>
+
+                    @using (Html.BeginForm("Delete", "Roles", new { roleId = role.Id }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Странициране -->
+<div class="text-center">
+    <ul class="pagination">
+        <li class="@(Model.HasPreviousPage ? "" : "disabled")">
+            <a href="@Url.Action("Index", new { pageIndex = Model.PageIndex - 1, nameSearch = Context.Request.Query["nameSearch"], sortOrder = ViewData["NameSortParm"] })" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="@(i == Model.PageIndex ? "active" : "")">
+                <a href="@Url.Action("Index", new { pageIndex = i, nameSearch = Context.Request.Query["nameSearch"], sortOrder = ViewData["NameSortParm"] })">@i</a>
+            </li>
+        }
+        <li class="@(Model.HasNextPage ? "" : "disabled")">
+            <a href="@Url.Action("Index", new { pageIndex = Model.PageIndex + 1, nameSearch = Context.Request.Query["nameSearch"], sortOrder = ViewData["NameSortParm"] })" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+

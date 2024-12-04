@@ -1,0 +1,46 @@
+﻿@model HandmadeShop.Models.ApplicationUser
+
+<h2>Създаване на потребител</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="UserName">Потребителско име</label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Електронна поща</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Поле за въвеждане на името на потребителя -->
+    <div class="form-group">
+        <label for="FullName">Пълно име</label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <!-- Ръчно задаване на поле за парола -->
+    <div class="form-group">
+        <label for="Password">Парола</label>
+        <input type="password" name="Password" class="form-control" required />
+        <span class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Създай</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+﻿@model ApplicationRole
+
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<h1>Edit Role</h1>
+
+<!-- Покажете ID-то на ролята -->
+<p>Role ID: @Model.Id</p>
+
+<form asp-action="Edit" method="post">
+    <!-- Скрита стойност за Role ID -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label for="Name">Role Name</label>
+        <input type="text" class="form-control" id="Name" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+
+
+

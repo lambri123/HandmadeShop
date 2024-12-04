@@ -1,0 +1,24 @@
+﻿@model IEnumerable<UserRolesViewModel>
+
+<h2>Потребители и роли</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Потребителско име</th>
+            <th>Роли</th>
+            <th>Действие</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="Manage" asp-route-userId="@user.UserId" class="btn btn-primary">Управление на роли</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

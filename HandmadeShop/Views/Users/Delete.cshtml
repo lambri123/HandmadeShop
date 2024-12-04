@@ -1,0 +1,20 @@
+﻿@model ApplicationUser
+
+<h2>Изтриване на потребител</h2>
+
+<p>Сигурни ли сте, че искате да изтриете този потребител?</p>
+<p><strong>@Model.UserName</strong></p>
+
+<form asp-controller="Users" asp-action="DeleteConfirmed" method="post">
+    <!-- Скрито поле за Id на потребителя -->
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="submit" value="Изтрий" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-secondary">Откажи</a>
+</form>
+
+
+
+
+
+
+   

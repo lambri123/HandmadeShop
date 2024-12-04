@@ -1,0 +1,111 @@
+﻿@model PaginatedList<HandmadeShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Продукти</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<!-- Форма за търсене -->
+<form method="get">
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="nameSearch">Search by Name:</label>
+            <input type="text" class="form-control" id="nameSearch" name="nameSearch" value="@Context.Request.Query["nameSearch"]" />
+        </div>
+        <div class="form-group">
+            <label for="categorySearch">Search by Category:</label>
+            <input type="text" class="form-control" id="categorySearch" name="categorySearch" value="@Context.Request.Query["categorySearch"]" />
+        </div>
+        <div class="form-group">
+            <label for="priceSearch">Search by Price:</label>
+            <input type="text" class="form-control" id="priceSearch" name="priceSearch" value="@Context.Request.Query["priceSearch"]" />
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+    </div>
+</form>
+
+<!-- Таблица с продуктите -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ViewData["NameSortParm"], nameSearch = Context.Request.Query["nameSearch"], categorySearch = Context.Request.Query["categorySearch"], priceSearch = Context.Request.Query["priceSearch"] })">
+                    Name
+                    @if (ViewData["NameSortParm"].ToString() == "name_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ViewData["CategorySortParm"], nameSearch = Context.Request.Query["nameSearch"], categorySearch = Context.Request.Query["categorySearch"], priceSearch = Context.Request.Query["priceSearch"] })">
+                    Category
+                    @if (ViewData["CategorySortParm"].ToString() == "category_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ViewData["PriceSortParm"], nameSearch = Context.Request.Query["nameSearch"], categorySearch = Context.Request.Query["categorySearch"], priceSearch = Context.Request.Query["priceSearch"] })">
+                    Price
+                    @if (ViewData["PriceSortParm"].ToString() == "price_desc")
+                    {
+                        <span>&#9660;</span>
+                    }
+                    else
+                    {
+                        <span>&#9650;</span>
+                    }
+                </a>
+            </th>
+            <th>
+                Stock
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Price</td>
+                <td>@item.Stock</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Странициране -->
+<div>
+    @if (Model.HasPreviousPage)
+    {
+        <a href="@Url.Action("Index", new { pageIndex = Model.PageIndex - 1, nameSearch = Context.Request.Query["nameSearch"], categorySearch = Context.Request.Query["categorySearch"], priceSearch = Context.Request.Query["priceSearch"], sortOrder = ViewData["SortOrder"] })">Previous</a>
+    }
+    @if (Model.HasNextPage)
+    {
+        <a href="@Url.Action("Index", new { pageIndex = Model.PageIndex + 1, nameSearch = Context.Request.Query["nameSearch"], categorySearch = Context.Request.Query["categorySearch"], priceSearch = Context.Request.Query["priceSearch"], sortOrder = ViewData["SortOrder"] })">Next</a>
+    }
+</div>
+
+
